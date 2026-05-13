@@ -1,7 +1,8 @@
 # playwright => global fixer
 # chromium engine => Google Chrome and, MS Edge
 # run by using command : pytest test_playwrightBasics.py::test_playwrightShortcut --headed
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
+
 
 def test_playwrightBasics(playwright):
     browser = playwright.chromium.launch(headless=False)
@@ -24,4 +25,16 @@ def test_loginWithValidCredentials(page: Page):
     page.get_by_role("combobox").select_option("teach")
     page.locator("#terms").click()
     page.get_by_role("button", name="Sign In").click()
+
+def test_loginWithInvalidCredentials(page: Page):
+    page.goto("https://rahulshettyacademy.com/loginpagePractise/")
+    # get by label
+    page.get_by_label("Username:").fill("invalidUsername")
+    page.get_by_label("Password:").fill("invalidPassword")
+    page.get_by_role("combobox").select_option("teach")
+    page.locator("#terms").click()
+    page.get_by_role("button", name="Sign In").click()
+    # assertion
+    expect(page.get_by_text("Incorrect username/password.")).to_be_visible()
+
 
