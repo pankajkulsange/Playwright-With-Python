@@ -15,10 +15,13 @@ def test_playwrightBasics(playwright):
 def test_playwrightShortcut(page: Page):
     page.goto("https://rahulshettyacademy.com/")
 
-def test_coreLocators(page: Page):
+# learning locators
+def test_loginWithValidCredentials(page: Page):
     page.goto("https://rahulshettyacademy.com/loginpagePractise/")
     # get by label
     page.get_by_label("Username:").fill("rahulshettyacademy")
-    page.get_by_label("Password:").fill("learning")
+    page.get_by_label("Password:").fill("Learning@830$3mK2")
     page.get_by_role("combobox").select_option("teach")
-    page.pause()
+    page.locator("#terms").click()
+    page.get_by_role("button", name="Sign In").click()
+
